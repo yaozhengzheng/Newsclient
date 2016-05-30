@@ -25,7 +25,7 @@ public class FirstActivity extends Activity{
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent=new Intent(FirstActivity.this,MainActivity.class);
+                Intent intent=new Intent(FirstActivity.this,SecondActivity.class);
                 startActivity(intent);
                 finish();
             }

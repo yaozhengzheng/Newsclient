@@ -1,6 +1,8 @@
 package com.yao.feicui.newsclient;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -14,8 +16,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
-    private Button mButton;
+public class MainActivity extends AppCompatActivity implements  ViewPager.OnPageChangeListener {
     private ViewPager mViewPager;
     private ArrayList<View> mList;
     int[] pics = {R.mipmap.bd, R.mipmap.wy, R.mipmap.small, R.mipmap.welcome};
@@ -25,8 +26,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initView();
+//        // 判断是否是第一次运行程序
+//        SharedPreferences preferences = getSharedPreferences(SPLASH_CONFIG, MODE_PRIVATE);
+//        boolean isFirstRun = preferences.getBoolean(IS_FIRST_RUN, true);
+//        if (!isFirstRun) {
+//            Intent intent = new Intent(this, FirstActivity.class);
+//            startActivity(intent);
+//            finish();
+//        } else {
+            setContentView(R.layout.activity_main);
+            initView();
+//        }
     }
 
     @Override
@@ -36,8 +46,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initView() {
         mList = new ArrayList<>();
-        mButton = (Button) findViewById(R.id.btn);
-        mButton.setOnClickListener(this);
         mViewPager = (ViewPager) findViewById(R.id.vp);
         pics1[0] = (ImageView) findViewById(R.id.iv_1);
         pics1[1] = (ImageView) findViewById(R.id.iv_2);
@@ -54,19 +62,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mViewPager.addOnPageChangeListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        startActivity(new Intent(this, SecondActivity.class));
-    }
+
 
     //当达到最后一个画面时显示按钮
     @Override
     public void onPageSelected(int position) {
-        mButton.setVisibility(View.INVISIBLE);
-        if (position >= 3) {
-            mButton.setVisibility(View.VISIBLE);
-        } else {
-            mButton.setVisibility(View.INVISIBLE);
+        if (position==3) {
+            Handler handler=new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent=new Intent(MainActivity.this,FirstActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            },2000);
+
         }
         //更新图标
         for (int i = 0; i < pics.length; i++) {
@@ -74,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         pics1[position].setImageResource(R.mipmap.adware_style_selected);
     }
-
+//viewpager在滚动的时候调用第一个方法
     @Override
     public void onPageScrollStateChanged(int state) {
 
