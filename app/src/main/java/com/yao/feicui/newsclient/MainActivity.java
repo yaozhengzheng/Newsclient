@@ -17,28 +17,31 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements  ViewPager.OnPageChangeListener {
+    public static final String SPLASH_CONFIG="splash_config";
+    public static final String IS_FIRST_RUN="isFirstRun";
     private ViewPager mViewPager;
     private ArrayList<View> mList;
     int[] pics = {R.mipmap.bd, R.mipmap.wy, R.mipmap.small, R.mipmap.welcome};
     ImageView iv_1, iv_2, iv_3, iv_4;
     ImageView[] pics1 = {iv_1, iv_2, iv_3, iv_4};
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        // 判断是否是第一次运行程序
-//        SharedPreferences preferences = getSharedPreferences(SPLASH_CONFIG, MODE_PRIVATE);
-//        boolean isFirstRun = preferences.getBoolean(IS_FIRST_RUN, true);
-//        if (!isFirstRun) {
-//            Intent intent = new Intent(this, FirstActivity.class);
-//            startActivity(intent);
-//            finish();
-//        } else {
+        // 判断是否是第一次运行程序
+        SharedPreferences preferences = getSharedPreferences(SPLASH_CONFIG, MODE_PRIVATE);
+        boolean isFirstRun = preferences.getBoolean(IS_FIRST_RUN,true);
+        if (!isFirstRun) {
+            Intent intent = new Intent(this, FirstActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
             setContentView(R.layout.activity_main);
             initView();
-//        }
+        }
     }
-
+//滚动式调用方法，反复调用
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -64,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements  ViewPager.OnPage
 
 
 
-    //当达到最后一个画面时显示按钮
+    //当达到最后一个画面时跳转，1秒
     @Override
     public void onPageSelected(int position) {
         if (position==3) {
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements  ViewPager.OnPage
                     startActivity(intent);
                     finish();
                 }
-            },2000);
+            },1000);
 
         }
         //更新图标
@@ -97,8 +100,8 @@ public class MainActivity extends AppCompatActivity implements  ViewPager.OnPage
         public MyPagerAdapter(ArrayList<View> list) {
             mList = list;
         }
-        //初始化里面的视图,展现到界面上来
 
+        //初始化里面的视图,展现到界面上来
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             container.addView(mList.get(position));
@@ -111,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements  ViewPager.OnPage
             container.removeView(mList.get(position));
         }
 
+//        获得viewpager中有多少个view
         @Override
         public int getCount() {
             if (mList != null) {
@@ -118,6 +122,11 @@ public class MainActivity extends AppCompatActivity implements  ViewPager.OnPage
             }
             return 0;
         }
+
+        /**
+         * 判断instantiateItem(ViewGroup, int)函数
+         * 所返回来的Key与一个页面视图是否是 代表的同一个视图
+          */
 
         @Override
         public boolean isViewFromObject(View view, Object object) {
