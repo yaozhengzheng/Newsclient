@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 /**
+ * 添加动画
  * Created by 16245 on 2016/05/30.
  */
 public class FirstActivity extends Activity{

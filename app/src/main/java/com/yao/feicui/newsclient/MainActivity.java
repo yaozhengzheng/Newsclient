@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements  ViewPager.OnPageChangeListener {
     public static final String SPLASH_CONFIG="splash_config";
     public static final String IS_FIRST_RUN="isFirstRun";
+
     private ViewPager mViewPager;
     private ArrayList<View> mList;
     int[] pics = {R.mipmap.bd, R.mipmap.wy, R.mipmap.small, R.mipmap.welcome};
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements  ViewPager.OnPage
     }
 
     private class MyPagerAdapter extends PagerAdapter {
+
         private ArrayList<View> mList;
 
         public MyPagerAdapter(ArrayList<View> list) {

@@ -7,6 +7,8 @@ import android.os.Bundle;
 
 import com.yao.feicui.newsclient.common.LogUtil;
 
+import java.net.URL;
+
 /**
  * Created by 16245 on 2016/05/30.
  */
@@ -30,4 +32,9 @@ public class MyBaseActivity extends Activity{
         screen_w=getWindowManager().getDefaultDisplay().getWidth();
         screen_h=getWindowManager().getDefaultDisplay().getHeight();
     }
+    //通过 class 名字进行界面跳转并带 Bundle， Uri 数据
+    public void openActivity(Class<?>pClass, Bundle bundle, URL url){
+        Intent intent=new Intent(this,pClass);
+    }
+
 }
